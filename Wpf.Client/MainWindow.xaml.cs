@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.Client.Models.Car.Validation;
 
 namespace Wpf.Client
 {
@@ -68,8 +69,8 @@ namespace Wpf.Client
             // Create POST data and convert it to a byte array.
             string postData = JsonConvert.SerializeObject(new
             {
-                Mark = "Ford",
-                Model = "Биток із США",
+                //Mark = "Ford",
+                //Model = "Биток із США",
                 Year = 2020,
                 Fuel = "Брикет РУФ",
                 Сapacity = 5.7F,
@@ -111,8 +112,27 @@ namespace Wpf.Client
                 // Close the response.
                 response.Close();
             }
+
+            catch (WebException e)
+            {
+                using (WebResponse response = e.Response)
+                {
+                    HttpWebResponse httpResponse = (HttpWebResponse)response;
+                    MessageBox.Show("Error code: "+ httpResponse.StatusCode);
+                    using (Stream data = response.GetResponseStream())
+                    using (var reader = new StreamReader(data))
+                    {
+                        string text = reader.ReadToEnd();
+                        var errors = JsonConvert.DeserializeObject<AddCarValidation>(text);
+                        MessageBox.Show(text);
+                        MessageBox.Show(errors.Errors.Mark[0]);
+                    }
+                }
+            }
+
             catch (Exception ex)
             {
+                
                 MessageBox.Show(ex.Message);
             }
 

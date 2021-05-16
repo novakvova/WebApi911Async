@@ -30,10 +30,10 @@ namespace WebGallery.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IActionResult AddCar([FromBody]Car car)
+        public IActionResult AddCar([FromBody]CarAddViewModel car)
         {
-            _context.Cars.Add(car);
-            _context.SaveChanges();
+            //_context.Cars.Add(car);
+            //_context.SaveChanges();
             return Ok(new { message="Додано" });
         }
 
