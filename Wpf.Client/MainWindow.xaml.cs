@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UIHelper;
 using Wpf.Client.Models.Car.Validation;
 
 namespace Wpf.Client
@@ -25,100 +28,69 @@ namespace Wpf.Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string file_selected = string.Empty;
+        public string file_name { get; set; }
+        public static string New_FileName { get; set; }
+        //private readonly IConfiguration _configuration;
         public MainWindow()
         {
-            Thread.Sleep(3000);
-            //String URI = "https://vpu911.ga/api/Girls/search";
-            //WebClient webClient = new WebClient();
-            //string reply = webClient.DownloadString(URI);
+            //_configuration = configuration;
+            InitializeComponent();
+        }
 
-            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5000/api/cars/add");
-            //httpWebRequest.ContentType = "application/json";
-            //httpWebRequest.Method = "POST";
-
-            //using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            //{
-            //    //string json = "{\"user\":\"test\"," +
-            //    //              "\"password\":\"bla\"}";
-            //    string json = JsonConvert.SerializeObject(new 
-            //    {
-            //        Mark = "Ford",
-            //        Model = "Биток із США",
-            //        Year = 2020,
-            //        Fuel = "Бензин-газ",
-            //        Сapacity = 5.7F,
-            //        Image = "2021-Ford-Thunderbird-Rebord.jpg"
-            //    });
-
-            //    streamWriter.Write(json);
-            //}
-
-            //var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            //using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            //{
-            //    var result = streamReader.ReadToEnd();
-            //}
-
-
-
-            // Create a request using a URL that can receive a post.
-            WebRequest request = WebRequest.Create("http://localhost:5000/api/cars/add");
-            // Set the Method property of the request to POST.
-            request.Method = "POST";
-
-            // Create POST data and convert it to a byte array.
-            string postData = JsonConvert.SerializeObject(new
+        private void btnSelectImage_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
             {
-                //Mark = "Ford",
-                //Model = "Биток із США",
-                Year = 2020,
-                Fuel = "Брикет РУФ",
-                Сapacity = 5.7F,
-                Image = "2021-Ford-Th999underbird-Rebord.jpg"
+                New_FileName = openFileDialog.FileName;
+            }
+        }
+
+        private async void btnSaveChangs_Click(object sender, RoutedEventArgs e)
+        {
+            await Task.Run(() => PostRequest());
+        }
+
+        public async Task<bool> PostRequest()
+        {
+           
+            //New_FileName
+            var app = App.Current as IGetConfiguration;
+            var serverUrl = app.Configuration.GetSection("ServerUrl").Value;
+            WebRequest request = WebRequest.Create($"{serverUrl}api/Cars/add");
+            {
+                request.Method = "POST";
+                request.ContentType = "application/json";
+            };
+            string base64 = ImageHelper.ImageConvertToBase64(New_FileName); 
+            string json = JsonConvert.SerializeObject(new
+            {
+                Mark = "Камез",//tbMark.Text.ToString(),
+                Model = "33",//tbModel.Text.ToString(),
+                Year = 1972, //int.Parse(tbYear.Text),
+                Fuel = "Дизель",//tbFuel.Text.ToString(),
+                Capacity = 12.45F, //float.Parse(tbСapacity.Text),
+                Image = base64
             });
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
 
-            // Set the ContentType property of the WebRequest.
-            request.ContentType = "application/json";
-            // Set the ContentLength property of the WebRequest.
-            //request.ContentLength = byteArray.Length;
-
-            // Get the request stream.
-            Stream dataStream = request.GetRequestStream();
-            // Write the data to the request stream.
-            dataStream.Write(byteArray, 0, byteArray.Length);
-            // Close the Stream object.
-            dataStream.Close();
-
+            using (Stream stream = await request.GetRequestStreamAsync())
+            {
+                stream.Write(bytes, 0, bytes.Length);
+            }
             try
             {
-                // Get the response.
-                WebResponse response = request.GetResponse();
-                // Display the status.
-                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-
-                // Get the stream containing content returned by the server.
-                // The using block ensures the stream is automatically closed.
-                using (dataStream = response.GetResponseStream())
-                {
-                    // Open the stream using a StreamReader for easy access.
-                    StreamReader reader = new StreamReader(dataStream);
-                    // Read the content.
-                    string responseFromServer = reader.ReadToEnd();
-                    // Display the content.
-                    Console.WriteLine(responseFromServer);
-                }
-
-                // Close the response.
-                response.Close();
+                await request.GetResponseAsync();
+                return true;
             }
-
             catch (WebException e)
             {
                 using (WebResponse response = e.Response)
                 {
                     HttpWebResponse httpResponse = (HttpWebResponse)response;
-                    MessageBox.Show("Error code: "+ httpResponse.StatusCode);
+                    MessageBox.Show("Error code: " + httpResponse.StatusCode);
                     using (Stream data = response.GetResponseStream())
                     using (var reader = new StreamReader(data))
                     {
@@ -126,18 +98,19 @@ namespace Wpf.Client
                         var errors = JsonConvert.DeserializeObject<AddCarValidation>(text);
                         MessageBox.Show(text);
                         MessageBox.Show(errors.Errors.Mark[0]);
+                        MessageBox.Show(errors.Errors.Model[0]);
+                        MessageBox.Show(errors.Errors.Year[0]);
+                        MessageBox.Show(errors.Errors.Fuel[0]);
+                        return false;
                     }
                 }
             }
-
             catch (Exception ex)
             {
-                
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message.ToString());
+                return false;
             }
-
-
-            InitializeComponent();
         }
+
     }
 }

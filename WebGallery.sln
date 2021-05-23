@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGallery", "WebGallery\WebGallery.csproj", "{F542EA1A-970E-4384-84B4-0534B36D8279}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebGallery", "WebGallery\WebGallery.csproj", "{F542EA1A-970E-4384-84B4-0534B36D8279}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf.Client", "Wpf.Client\Wpf.Client.csproj", "{05AD0253-41CA-4900-BF53-E5BE9BFD5CAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wpf.Client", "Wpf.Client\Wpf.Client.csproj", "{05AD0253-41CA-4900-BF53-E5BE9BFD5CAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIHelper", "UIHelper\UIHelper.csproj", "{3DC414B7-4D28-4141-ABFB-C984E99BD3E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{05AD0253-41CA-4900-BF53-E5BE9BFD5CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05AD0253-41CA-4900-BF53-E5BE9BFD5CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05AD0253-41CA-4900-BF53-E5BE9BFD5CAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DC414B7-4D28-4141-ABFB-C984E99BD3E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DC414B7-4D28-4141-ABFB-C984E99BD3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DC414B7-4D28-4141-ABFB-C984E99BD3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DC414B7-4D28-4141-ABFB-C984E99BD3E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

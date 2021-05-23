@@ -5,8 +5,141 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf.Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="300" Width="424">
+    <Canvas Background="#FFD6B2B2">
+        <Canvas.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Foreground" Value="DarkRed" />
+                <Setter Property="BorderBrush" Value="Green" />
+                <Setter Property="Background" Value="DodgerBlue" />
+                <Setter Property="FontSize" Value="12" />
 
-    </Grid>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="Blue" />
+
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Foreground" Value="red" />
+                <Setter Property="BorderBrush" Value="Blue" />
+                <Setter Property="Background" Value="LightBlue" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+        </Canvas.Resources>
+        <WrapPanel Margin="5" Canvas.Left="13" Canvas.Top="22">
+
+            <Label Content="Марку автомобиля :" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="230" />
+            <TextBox x:Name="tbMark" 
+                         Text="{Binding Mark, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Width="158">
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <AdornedElementPlaceholder x:Name="textBox"/>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="5"  Canvas.Top="62" Canvas.Left="13">
+            <Label Content="Модель автомобиля :" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="230" />
+            <TextBox x:Name="tbModel" 
+                         Text="{Binding Model, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnDataErrors=True}"
+                    Width="158">
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <AdornedElementPlaceholder x:Name="textBox"/>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="5"  Canvas.Top="102" Canvas.Left="13">
+
+            <Label Content="Год выпуска :" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="230" />
+            <TextBox x:Name="tbYear" 
+                         Text="{Binding Model, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnDataErrors=True}"
+                    Width="158">
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <AdornedElementPlaceholder x:Name="textBox"/>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="5"  Canvas.Top="142" Canvas.Left="13">
+            <Label Content="Вид топлива :" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="230" />
+            <TextBox x:Name="tbFuel" 
+                         Text="{Binding Model, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnDataErrors=True}"
+                    Width="158">
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <AdornedElementPlaceholder x:Name="textBox"/>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="5"  Canvas.Top="182" Canvas.Left="13">
+
+            <Label Content="Обьем двигателя :" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="230" />
+            <TextBox x:Name="tbСapacity" 
+                         Text="{Binding Model, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnDataErrors=True}"
+                    Width="158">
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <AdornedElementPlaceholder x:Name="textBox"/>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </TextBox>
+        </WrapPanel>
+        <Button x:Name="Chang_foto" Width="120"
+                        Content="Обновить фото" 
+                        Click="btnSelectImage_Click" Canvas.Left="38" Canvas.Top="237"/>
+        <Button x:Name="Save_Changes" Width="149"
+                        Content="Сохранить изменения" 
+                        Click="btnSaveChangs_Click" Canvas.Left="243" Canvas.Top="237"/>
+
+
+    </Canvas>
 </Window>
