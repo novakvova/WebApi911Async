@@ -21,6 +21,7 @@ namespace WebGallery.Entities
         }
 
         public DbSet<Car> Cars { get; set; }
+        public DbSet<UserCar> UserCars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -37,6 +38,21 @@ namespace WebGallery.Entities
 
                 userRole.HasOne(ur => ur.User)
                     .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+            });
+
+            object p = builder.Entity<UserCar>(userCar =>
+            {
+                userCar.HasKey(ur => new { ur.UserId, ur.CarId });
+
+                userCar.HasOne(ur => ur.Car)
+                    .WithMany(r => r.UserCars)
+                    .HasForeignKey(ur => ur.CarId)
+                    .IsRequired();
+
+                userCar.HasOne(ur => ur.User)
+                    .WithMany(r => r.UserCars)
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });

@@ -40,5 +40,6 @@ namespace WebGallery.Entities.Data
         public float Сapacity { get; set; }
         [StringLength(255)]
         public string Image { get; set; }
+        public virtual ICollection<UserCar> UserCars { get; set; }
     }
 }
