@@ -63,6 +63,8 @@ namespace Wpf.Client
             {
                 request.Method = "POST";
                 request.ContentType = "application/json";
+                request.PreAuthenticate = true;
+                request.Headers.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoidXNlckBnbWFpbC5jb20iLCJyb2xlcyI6ImFkbWluIiwiZXhwIjoxNjMxNjA2MDAxfQ.x07kID0pPX73KE9ENNJ5K16ryto6ISI4yJ1qbHBckO0");
             };
             string base64 = ImageHelper.ImageConvertToBase64(New_FileName); 
             string json = JsonConvert.SerializeObject(new

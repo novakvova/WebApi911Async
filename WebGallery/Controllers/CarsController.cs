@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UIHelper;
+using WebGallery.Constants;
 using WebGallery.Entities;
 using WebGallery.Entities.Data;
 using WebGallery.Models;
@@ -33,6 +35,7 @@ namespace WebGallery.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize(Roles = Roles.Admin)]
         public IActionResult AddCar([FromBody]CarAddViewModel car)
         {
             //_context.Cars.Add(car);
