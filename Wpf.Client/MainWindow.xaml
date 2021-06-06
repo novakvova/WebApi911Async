@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf.Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="424">
+        Title="MainWindow" Height="334" Width="474">
     <Canvas Background="#FFD6B2B2">
         <Canvas.Resources>
             <Style TargetType="Button">
@@ -139,6 +139,8 @@
         <Button x:Name="Save_Changes" Width="149"
                         Content="Сохранить изменения" 
                         Click="btnSaveChangs_Click" Canvas.Left="243" Canvas.Top="237"/>
+        <Button x:Name="btnTestLogin" Width="120"
+            Content="TestLogin" Canvas.Left="38" Canvas.Top="277" Click="btnTestLogin_Click"/>
 
 
     </Canvas>

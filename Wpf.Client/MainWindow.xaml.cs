@@ -114,5 +114,61 @@ namespace Wpf.Client
             }
         }
 
+        private void btnTestLogin_Click(object sender, RoutedEventArgs e)
+        {
+            //New_FileName
+            var app = App.Current as IGetConfiguration;
+            var serverUrl = app.Configuration.GetSection("ServerUrl").Value;
+            WebRequest request = WebRequest.Create($"{serverUrl}api/Account");
+            {
+                request.Method = "POST";
+                request.ContentType = "application/json";
+            };
+            string json = JsonConvert.SerializeObject(new
+            {
+                Email = "user@gmail.com",//tbMark.Text.ToString(),
+                Password = "Qwerty1-"
+            });
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+
+            using (Stream stream = request.GetRequestStreamAsync().Result)
+            {
+                stream.Write(bytes, 0, bytes.Length);
+            }
+            try
+            {
+                var response = request.GetResponseAsync().Result;
+                using (var stream = new StreamReader(response.GetResponseStream()))
+                {
+                    MessageBox.Show(stream.ReadToEnd());
+                    return;
+                }
+            }
+            catch (WebException ex)
+            {
+                using (WebResponse response = ex.Response)
+                {
+                    HttpWebResponse httpResponse = (HttpWebResponse)response;
+                    MessageBox.Show("Error code: " + httpResponse.StatusCode);
+                    using (Stream data = response.GetResponseStream())
+                    using (var reader = new StreamReader(data))
+                    {
+                        string text = reader.ReadToEnd();
+                        var errors = JsonConvert.DeserializeObject<AddCarValidation>(text);
+                        MessageBox.Show(text);
+                        MessageBox.Show(errors.Errors.Mark[0]);
+                        MessageBox.Show(errors.Errors.Model[0]);
+                        MessageBox.Show(errors.Errors.Year[0]);
+                        MessageBox.Show(errors.Errors.Fuel[0]);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                return;
+            }
+        }
     }
 }
