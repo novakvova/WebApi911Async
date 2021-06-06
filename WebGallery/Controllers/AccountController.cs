@@ -43,5 +43,23 @@ namespace WebGallery.Controllers
                     token = _jwtTokenService.CreateToken(user)
                 });
         }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> Create([FromBody] UserCreateViewModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+                return BadRequest("Email is use");
+
+            user = new AppUser
+            {
+                Email = model.Email,
+                UserName = model.Email
+            };
+            var result = _userManager.CreateAsync(user, model.Password).Result;
+            //result = _userManager.AddToRoleAsync(user, Roles.Admin).Result;
+            return Ok();
+        }
     }
 }
