@@ -31,6 +31,18 @@ namespace WebGallery
                     var result = roleManager.CreateAsync(role).Result;
                 }
 
+                if(!userManager.Users.Any())
+                {
+                    var user = new AppUser
+                    {
+                        Email="user@gmail.com",
+                        UserName="user@gmail.com"
+                    };
+                    var result = userManager.CreateAsync(user,"Qwerty1-").Result;
+                    //if(result.Succeeded)
+                    result = userManager.AddToRoleAsync(user, Roles.Admin).Result;
+                }
+
                 if (!context.Cars.Any())
                 {
                     var cars = new List<Car>()

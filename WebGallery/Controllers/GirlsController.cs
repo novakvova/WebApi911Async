@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebGallery.Constants;
 using WebGallery.Models;
 
 namespace WebGallery.Controllers
@@ -14,6 +16,7 @@ namespace WebGallery.Controllers
     {
         [HttpGet]
         [Route("search")]
+        [Authorize(Roles =Roles.Admin)]
         public IActionResult SearchGrils()
         {
             var list = new List<GirlVM>()
