@@ -26,6 +26,12 @@ namespace WebGallery.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            var shema = Request.Scheme;
+            var port = Request.Host.Port;
+            var domain = Request.Host.Host;
+            if(port!=null)
+                domain+=":"+port.ToString();
+            string url = $"{shema}://{domain}/img/ddt.jpg";
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
